@@ -1,23 +1,19 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import "./App.css";
+import React, { useEffect, useState } from "react";
+import { Layout } from "antd";
+import HomePage from "./pages/homePage";
+
+const { Header, Content, Footer } = Layout;
 
 function App() {
-
-  const [message, setMessage] = useState('')
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:5000/')
-      .then(response => setMessage(response.data.message))
-      .catch(error => console.error(error));
-  }, []);
-
-
   return (
-    <div className="App">
-   {message ? (<div style={{fontSize: 50}}>{message}</div>) : 'hello world'}
-    </div>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Header className="text-white align-middle fixed w-full">CheckGPT</Header>
+      <Content className="mt-28 ml-24">
+        <HomePage />
+      </Content>
+      <Footer />
+    </Layout>
   );
 }
-
 export default App;

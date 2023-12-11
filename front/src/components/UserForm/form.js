@@ -1,63 +1,54 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import {Button, Form, Input, Select} from "antd";
-import TextArea from "antd/es/input/TextArea";
-import {nSampleValues} from "./utils";
+import React from "react";
+import { Button, Form, Input, Select, Slider } from "antd";
 import axios from "axios";
 
 const UserForm = () => {
-    const { handleSubmit, control } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
-        const dataToSend = {
-            nSamples: data.nSamples,
-            prompt: data.prompt,
-        }
+  const onFinish = (data) => {
+    console.log(data);
+    axios
+      .get("http://127.0.0.1:5000/api/data", {
+        params: data,
+      })
+      .then((response) => {
+        console.log(response.data);
+        // Handle the response data
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle the error
+      });
+  };
 
-        axios.get('http://127.0.0.1:5000/api/data', { params: dataToSend })
-            .then(response => {
-                console.log(response.data);
-                // Handle the response data
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Handle the error
-            });
-    };
+  // write init values for the form "" for prompt and 1 for nSamples
+  return (
+    <Form onFinish={onFinish} labelCol={{ span: 4 }} wrapperCol={{ span: 8 }}>
+      <Form.Item
+        label="nSamples"
+        name="nSamples"
+        rules={[
+          { required: true, message: "Please specify a number of samples" },
+        ]}
+      >
+        <Slider tooltip={{ open: true }} max={10} min={1} />
+      </Form.Item>
 
+      <Form.Item
+        label="prompt"
+        name="prompt"
+        rules={[
+          { required: true, message: "Please enter prompt", type: "string" },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-    return (
-        <Form layout="vertical" onFinish={handleSubmit(onSubmit)} size={"middle"}>
-            <Form.Item label="nSamples" >
-                <Controller
-                    name="nSamples"
-                    control={control}
-                    defaultValue=""
-                    rules={{required: {value: true, message: 'enter a number of samples'}}
-                    }
-                    render={({ field }) => <Select size="medium" options={nSampleValues} {...field} />}
-                />
-            </Form.Item>
-            <Form.Item label="Prompt">
-                <Controller
-                    name="Prompt"
-                    control={control}
-                    rules={{required: true}
-                    }
-                    defaultValue=""
-                    render={({ field }) => <TextArea placeholder="Enter your prompt here..." {...field} />}
-                />
-            </Form.Item>
-
-
-
-            <Form.Item>
-                <button
-                    type='submit'
-                    className="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full mb-2">Submit</button>
-            </Form.Item>
-        </Form>
-    );
+      <Form.Item wrapperCol={{ offset: 4, span: 8 }}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
 };
 
 export default UserForm;
