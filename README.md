@@ -10,25 +10,13 @@ In the app directory, set up a virtual environment (venv) to avoid CORS issues.
 
 1. Navigate to the App directory: cd app
 
-2. Create a virtual environment (venv):
+2. Install Flask and Flask CORS:
   ```
- python -m venv venv
-  ``` 
-
-4. Activate the virtual environment:
-- On macOS:
-  ```
-  source venv/bin/activate
-  ```
-- On Windows:
-  ```
-  .\venv\Scripts\activate
-  ```
-
-4. Install Flask and Flask CORS:
 pip install flask
+  ```
+  ```
 pip install flask_cors
-
+  ```
 ### Frontend
 
 Make sure you have Node.js installed.
