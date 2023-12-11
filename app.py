@@ -9,9 +9,11 @@ CORS(app)
 @cross_origin(origins="http://localhost:3000")
 
 @app.route('/api/data', methods=['GET'])
+
 def get_data():
     nSamples = request.args.get('nSamples') 
     prompt = request.args.get('prompt') 
+    
     try:
         if not prompt and not nSamples:
             raise Exception('Values not provided')
@@ -25,9 +27,9 @@ def get_data():
         # Return a response
         return jsonify({'result': result})
 
-    except Exception as e:
+    except Exception as ce:
         # Handle the custom exception
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(ce)})
 
 
 if __name__ == '__main__':
