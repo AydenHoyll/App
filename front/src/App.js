@@ -1,19 +1,19 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Layout } from "antd";
 import HomePage from "./pages/homePage";
-import { DataProvider } from "./context/context";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const { Header, Content, Footer } = Layout;
-
+const queryClient = new QueryClient();
 function App() {
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header className="text-white align-middle fixed w-full">CheckGPT</Header>
+      <Header className="text-white w-full">CheckGPT</Header>
       <Content className="mt-28 ml-24">
-        <DataProvider>
+        <QueryClientProvider client={queryClient}>
           <HomePage />
-        </DataProvider>
+        </QueryClientProvider>
       </Content>
       <Footer />
     </Layout>
